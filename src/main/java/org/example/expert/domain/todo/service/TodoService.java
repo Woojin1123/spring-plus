@@ -21,12 +21,13 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class TodoService {
 
     private final TodoRepository todoRepository;
     private final WeatherClient weatherClient;
 
+    @Transactional
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
         User user = User.fromAuthUser(authUser);
 
@@ -54,7 +55,7 @@ public class TodoService {
 
 //        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
 
-        Page<Todo> todos = todoRepository.findByWeatherAndDate(startDate,endDate,weather,pageable);
+        Page<Todo> todos = todoRepository.findByWeatherAndDate(startDate, endDate, weather, pageable);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
