@@ -4,9 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.expert.domain.auth.exception.AuthException;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
-import org.example.expert.domain.user.enums.UserRole;
+import org.example.expert.domain.user.dto.UserDetailsImpl;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -37,10 +39,13 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         // JwtFilter 에서 set 한 userId, email, userRole 값을 가져옴
-        Long userId = (Long) request.getAttribute("userId");
-        String email = (String) request.getAttribute("email");
-        UserRole userRole = UserRole.of((String) request.getAttribute("userRole"));
+//        Long userId = (Long) request.getAttribute("userId");
+//        String email = (String) request.getAttribute("email");
+//        UserRole userRole = UserRole.of((String) request.getAttribute("userRole"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return new AuthUser(userId, email, userRole);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        return new AuthUser(userDetails.getId(), userDetails.getEmail(), userDetails.getRole());
     }
 }

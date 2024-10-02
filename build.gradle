@@ -50,6 +50,9 @@ dependencies {
 
     //When.Maybe fix
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    //security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {
