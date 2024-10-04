@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,37 +21,42 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+
     @Bean
     public JwtFilter jwtFilter() {
         return new JwtFilter(jwtUtil, userDetailsService);
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
             throws Exception {
         return configuration.getAuthenticationManager();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-        http.formLogin(AbstractHttpConfigurer::disable);
+        http.formLogin(AbstractHttpConfigurer::disable); //UsernamePasswordAuthenticationFilter, DefaultLoginPageGeneratingFilter
+        http.anonymous(AbstractHttpConfigurer::disable); // AnonymousAuthenticationFilter
+        http.cors(Customizer.withDefaults());
+        http.logout(AbstractHttpConfigurer::disable); // LogoutFilter
         http.sessionManagement(sessionManagementConfigurer ->
                 sessionManagementConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // SessionManagementFilter, SecurityContextPersistenceFilter
         );
-        http.cors(Customizer.withDefaults());
-
-        http.authorizeHttpRequests((authorizeHttpRequests) ->
+        http.authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
         );
-        http.exceptionHandling((exceptionHandling) ->
+        http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler())
         );
 
-        http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter(), SecurityContextHolderAwareRequestFilter.class);
         return http.build();
     }
 }
