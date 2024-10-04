@@ -1,6 +1,7 @@
 package org.example.expert.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
 import org.example.expert.domain.user.entity.User;
@@ -16,8 +17,18 @@ public class UserAdminService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void changeUserRole(long userId, UserRoleChangeRequest userRoleChangeRequest) {
+    public void changeUserRole(AuthUser authUser, long userId, UserRoleChangeRequest userRoleChangeRequest) {
+        checkUserRole(authUser.getId());
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
         user.updateRole(UserRole.of(userRoleChangeRequest.getRole()));
+    }
+
+    private void checkUserRole(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new InvalidRequestException("User not found")
+        );
+        if (!user.getUserRole().equals(UserRole.ADMIN)) {
+            throw new InvalidRequestException("User does not have permission");
+        }
     }
 }
