@@ -45,8 +45,8 @@ public class TodoQueryDslRepositoryImpl implements TodoQueryDslRepository {
                         Projections.constructor(
                                 TodoSearchDto.class,
                                 todo.title,
-                                comment.count(),
-                                manager.count()
+                                comment.countDistinct(),//집계함수는 join사용시 주의
+                                manager.countDistinct()
                         ))
                 .from(todo)
                 .leftJoin(todo.comments, comment)
