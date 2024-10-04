@@ -70,21 +70,16 @@ public class TodoQueryDslRepositoryImpl implements TodoQueryDslRepository {
         return keyword != null ? todo.title.contains(keyword) : null;
     }
 
+    private BooleanExpression todoCreatedAtGoe(LocalDateTime startDate) {
+        return startDate != null ? todo.createdAt.goe(startDate) : null;
+    }
+
+    private BooleanExpression todoCreatedAtLoe(LocalDateTime endDate) {
+        return endDate != null ? todo.createdAt.loe(endDate) : null;
+    }
+
     private BooleanExpression todoCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate) {
-        BooleanExpression expression = null;
-
-        if (startDate != null) {
-            expression = todo.createdAt.goe(startDate);
-        }
-        if (endDate != null) {
-            if (expression == null) {
-                expression = todo.createdAt.loe(endDate);
-            } else {
-                expression = expression.and(todo.createdAt.loe(endDate));
-            }
-        }
-
-        return expression;
+        return startDate != null ? todoCreatedAtGoe(startDate).and(todoCreatedAtLoe(endDate)) : todoCreatedAtLoe(endDate);
     }
 
     private BooleanExpression todoManagerNameContains(String managerName) {
