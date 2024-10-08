@@ -39,3 +39,4 @@ out/
 ### properties ###
 *.properties
 application.yml
+plus key.pem
