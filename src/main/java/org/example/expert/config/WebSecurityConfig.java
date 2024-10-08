@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/health").permitAll()
                         .anyRequest().authenticated()
         );
         http.exceptionHandling(exceptionHandling ->
