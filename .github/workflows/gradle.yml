@@ -63,11 +63,11 @@ jobs:
 
         
     - name: Deploy
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.6
       with:
-        host: ${{ secrets.SSH_HOST }} # EC2 인스턴스 퍼블릭 DNS
-        username: ubuntu
-        key: ${{ secrets.SSH_KEY }} # pem 키
+        host: ${{ secrets.SSH_HOST }}
+        username: ec2-user
+        key: ${{ secrets.SSH_KEY }}
         port: 22
         # 도커 작업
         script: |
