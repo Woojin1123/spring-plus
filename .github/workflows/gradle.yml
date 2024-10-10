@@ -72,6 +72,6 @@ jobs:
         # 도커 작업
         script: |
          sudo docker rm -f $(docker ps -qa)
-         sudo docker pull ${{ secrets.DOCKER_REPO }}/directors-dev
+         sudo docker pull ${{ secrets.DOCKER_REPO }}/spring-plus
          docker-compose up -d
          docker image prune -f
