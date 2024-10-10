@@ -1,11 +1,22 @@
 # SPRING PLUS
 ### 3-12 Aws
 
-EC2
+#### EC2
+![image](https://github.com/user-attachments/assets/17e552ab-c282-4733-998d-f89efcb8b5db)
+![image](https://github.com/user-attachments/assets/dc939941-89d7-4e90-9c56-c5566efb1f47)
 
-RDS
 
-S3
+
+#### RDS
+![image](https://github.com/user-attachments/assets/314b8020-94b4-4c37-9813-befd86eb93de)
+![image](https://github.com/user-attachments/assets/423ae3d8-30fd-4a4d-b751-7e6ed73548f5)
+
+
+#### S3
+![image](https://github.com/user-attachments/assets/420079d4-ab7b-48e8-8215-c51f47655514)
+
+#### Health Check API
+<a href="http://13.124.125.99:8080/health" target="_blank"> Health Check API </a>
 
 
 
