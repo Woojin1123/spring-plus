@@ -68,6 +68,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }} # EC2 인스턴스 퍼블릭 DNS
         username: ubuntu
         key: ${{ secrets.SSH_KEY }} # pem 키
+        port: 22
         # 도커 작업
         script: |
          sudo docker rm -f $(docker ps -qa)
