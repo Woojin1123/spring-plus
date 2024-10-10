@@ -36,4 +36,5 @@
 
 ### Trouble Shooting
 1. 조회 시 집계함수 중복 문제 https://velog.io/@boom3652/SQL-Join과-집계-함수-오류
-2. 
+
+2. Spring Security 기능 사용 중 요청에 JWT Token이 포함될 경우 permitAll()을 지정한 URL이더라도 JwtFilter를 통과하게 되어서 
