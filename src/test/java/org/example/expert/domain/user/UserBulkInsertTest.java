@@ -29,7 +29,7 @@ public class UserBulkInsertTest {
                 String email = "test" + i + "@test" + j + ".com";
                 String nickname = "testname" + j;
                 String password = "123";
-                User user = new User(email, password, UserRole.USER, nickname);
+                User user = new User(email, password, UserRole.ROLE_USER, nickname);
                 userList.add(user);
             }
             userQueryDslRepository.userBulkInsert(userList);
