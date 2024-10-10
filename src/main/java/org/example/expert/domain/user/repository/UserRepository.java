@@ -1,5 +1,6 @@
 package org.example.expert.domain.user.repository;
 
+import org.example.expert.domain.user.dto.UserResponseMapping;
 import org.example.expert.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,6 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long>, UserQueryDslR
 
     boolean existsByEmail(String email);
 
-
-    List<User> findByNickname(String nickname);
+    List<UserResponseMapping> findByNickname(String nickname);
 }

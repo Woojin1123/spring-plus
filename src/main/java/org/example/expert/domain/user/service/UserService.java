@@ -3,6 +3,7 @@ package org.example.expert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.user.dto.UserResponseMapping;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
@@ -53,7 +54,7 @@ public class UserService {
     }
 
     public List<UserResponse> searchUser(String nickname) {
-        List<User> userList = userRepository.findByNickname(nickname);
+        List<UserResponseMapping> userList = userRepository.findByNickname(nickname);
         return userList.stream().map(u -> new UserResponse(u.getId(), u.getEmail())).collect(Collectors.toList());
     }
 }

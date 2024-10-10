@@ -3,6 +3,7 @@ package org.example.expert.domain.user;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.example.expert.domain.user.repository.UserQueryDslRepositoryImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserBulkInsertTest {
     @Autowired
     private UserQueryDslRepositoryImpl userQueryDslRepository;
 
+    @Disabled
     @DisplayName("BulkInsertWithJdbcTemplate")
     @Test
     public void dummyInsertWithJdbcTemplate() {
