@@ -1,13 +1,12 @@
 package org.example.expert.domain.user.controller;
 
-import io.awspring.cloud.s3.S3Resource;
 import io.awspring.cloud.s3.S3Template;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
+import org.example.expert.domain.user.dto.response.UserProfileResponse;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.service.UserService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -39,19 +38,15 @@ public class UserController {
     }
 
     @PostMapping("/users/{userId}/profiles")
-    public ResponseEntity<String> uploadProfile(@AuthenticationPrincipal AuthUser authUser, @RequestPart(name = "file") MultipartFile multipartFile, @PathVariable Long userId) throws IOException {
-        String profile = userService.saveProfile(authUser, multipartFile, userId);
-        return ResponseEntity.ok().body(profile);
+    public ResponseEntity<UserProfileResponse> uploadProfile(@AuthenticationPrincipal AuthUser authUser, @RequestPart(name = "file") MultipartFile multipartFile, @PathVariable Long userId) throws IOException {
+        return ResponseEntity.ok().body(userService.saveProfile(authUser, multipartFile, userId));
     }
 
     @GetMapping("/users/{userId}/profiles")
-    public ResponseEntity<S3Resource> getProfile(@PathVariable Long userId) {
-        S3Resource profile = userService.getProfile(userId);
+    public ResponseEntity<UserProfileResponse> getProfile(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(userService.getProfile(userId));
 
-        if (MediaType.IMAGE_PNG.toString().equals(profile.contentType())) {
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(profile);
-        }
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(profile);
+
     }
 
 }

@@ -19,6 +19,7 @@ public class User extends Timestamped {
     private String email;
     private String password;
     private String nickname;
+    private String profileUrl;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
@@ -37,6 +38,10 @@ public class User extends Timestamped {
 
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    public void changeProfile(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 
     public void updateRole(UserRole userRole) {

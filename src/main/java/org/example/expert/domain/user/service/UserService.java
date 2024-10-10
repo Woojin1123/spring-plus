@@ -6,6 +6,7 @@ import io.awspring.cloud.s3.S3Template;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.user.dto.response.UserProfileResponse;
 import org.example.expert.domain.user.dto.UserResponseMapping;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -69,7 +70,8 @@ public class UserService {
         return userList.stream().map(u -> new UserResponse(u.getId(), u.getEmail())).collect(Collectors.toList());
     }
 
-    public String saveProfile(AuthUser authUser, MultipartFile multipartFile, Long userId) throws IOException {
+    @Transactional
+    public UserProfileResponse saveProfile(AuthUser authUser, MultipartFile multipartFile, Long userId) throws IOException {
         User user = userRepository.findById(authUser.getId()).orElseThrow(() ->
                 new InvalidRequestException("User not found"));
 
@@ -86,12 +88,15 @@ public class UserService {
                 multipartFile.getInputStream(),
                 ObjectMetadata.builder().contentType(multipartFile.getContentType()).build());
 
-        return s3Resource.getURL().toString();
+        user.changeProfile(s3Resource.getURL().toString());
+        User saveUser = userRepository.save(user);
+
+        return new UserProfileResponse(saveUser.getProfileUrl());
     }
 
-    public S3Resource getProfile(Long userId) {
+    public UserProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new InvalidRequestException("User not found"));
-        return s3Template.download(BUCKET, user.getEmail());
+        return new UserProfileResponse(user.getProfileUrl());
     }
 }
