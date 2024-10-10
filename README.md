@@ -1,5 +1,5 @@
 # SPRING PLUS
-### 3-12 Aws
+## 3-12 Aws
 
 #### EC2
 ![image](https://github.com/user-attachments/assets/17e552ab-c282-4733-998d-f89efcb8b5db)
@@ -20,7 +20,7 @@
 
 
 
-### 대용량 데이터 처리 조회속도 개선
+## 대용량 데이터 처리 조회속도 개선
 
 #### Before
 ![image](https://github.com/user-attachments/assets/b6e60338-38a6-45c2-b65b-74195150e4be)
@@ -34,7 +34,7 @@
 ![image](https://github.com/user-attachments/assets/6032f08a-1186-4cf3-9676-ba88f81b7623)
 
 
-### Trouble Shooting
+## Trouble Shooting
 1. 조회 시 집계함수 중복 문제 https://velog.io/@boom3652/SQL-Join과-집계-함수-오류
 
 2. Spring Security 기능 사용 중 요청에 JWT Token이 포함될 경우 permitAll()을 지정한 URL이더라도 JwtFilter를 통과하게 되어서 
