@@ -9,5 +9,7 @@
 ![image](https://github.com/user-attachments/assets/856f0a5d-b192-41c3-8e63-c84b0e1217b3)
 
 ### 1. id, Email 컬럼만 조회
+![image](https://github.com/user-attachments/assets/43c4901a-4c87-42fc-80ef-41c9897cb209)
+
 ![image](https://github.com/user-attachments/assets/b6cc00b1-1045-436c-84c3-d2b63e84719c)
 
