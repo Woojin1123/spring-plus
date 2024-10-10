@@ -71,7 +71,8 @@ jobs:
         port: 22
         # 도커 작업
         script: |
-         sudo docker rm -f $(docker ps -qa)
-         sudo docker pull ${{ secrets.DOCKER_REPO }}/spring-plus
-         docker-compose up -d
-         docker image prune -f
+         docker pull ${{ secrets.DOCKER_REPO }}/spring-plus:latest
+         docker stop $(docker ps -a -q)
+         docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_REPO }}/spring-plus:latest
+         docker rm $(docker ps --filter 'status=exited' -a -q)
+         docker image prune -a -f
