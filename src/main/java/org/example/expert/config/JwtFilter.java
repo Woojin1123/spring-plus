@@ -30,6 +30,10 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        if(request.getRequestURI().startsWith("/auth") || request.getRequestURI().startsWith("/health")){
+            filterChain.doFilter(request,response);
+            return;
+        }
         String bearerJwt = request.getHeader("Authorization");
 
         if(bearerJwt != null && bearerJwt.startsWith("Bearer ")) {
@@ -60,9 +64,6 @@ public class JwtFilter extends OncePerRequestFilter {
             } catch (UnsupportedJwtException e) {
                 log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.", e);
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "지원되지 않는 JWT 토큰입니다.");
-            } catch (Exception e) {
-                log.error("Internal server error", e);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         }
         filterChain.doFilter(request, response);
