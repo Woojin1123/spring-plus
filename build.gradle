@@ -61,6 +61,9 @@ dependencies {
 
     //HEALTH CHECK
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //S3
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.0'
 }
 
 tasks.named('test') {

@@ -1,16 +1,24 @@
 package org.example.expert.domain.user.service;
 
+import io.awspring.cloud.s3.ObjectMetadata;
+import io.awspring.cloud.s3.S3Resource;
+import io.awspring.cloud.s3.S3Template;
 import lombok.RequiredArgsConstructor;
+import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.UserResponseMapping;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +29,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3Template s3Template;
+    @Value(value = "${spring.cloud.aws.s3.bucket}")
+    private String BUCKET;
 
     public UserResponse getUser(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
@@ -56,5 +67,31 @@ public class UserService {
     public List<UserResponse> searchUser(String nickname) {
         List<UserResponseMapping> userList = userRepository.findByNickname(nickname);
         return userList.stream().map(u -> new UserResponse(u.getId(), u.getEmail())).collect(Collectors.toList());
+    }
+
+    public String saveProfile(AuthUser authUser, MultipartFile multipartFile, Long userId) throws IOException {
+        User user = userRepository.findById(authUser.getId()).orElseThrow(() ->
+                new InvalidRequestException("User not found"));
+
+        if (!user.getId().equals(userId)) {
+            throw new InvalidRequestException("다른 사람의 profile은 업로드 할 수 없습니다.");
+        }
+        if (!MediaType.IMAGE_PNG.toString().equals(multipartFile.getContentType()) &&
+                !MediaType.IMAGE_JPEG.toString().equals(multipartFile.getContentType())) {
+            throw new InvalidRequestException("File is not photo");
+        }
+
+        S3Resource s3Resource = s3Template.upload(BUCKET,
+                authUser.getEmail(),
+                multipartFile.getInputStream(),
+                ObjectMetadata.builder().contentType(multipartFile.getContentType()).build());
+
+        return s3Resource.getURL().toString();
+    }
+
+    public S3Resource getProfile(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new InvalidRequestException("User not found"));
+        return s3Template.download(BUCKET, user.getEmail());
     }
 }
