@@ -33,3 +33,7 @@
 ![image](https://github.com/user-attachments/assets/de4b35d3-c0a0-4bb5-8d6b-c920f8c33d82)![image](https://github.com/user-attachments/assets/4300654b-b94b-4f60-8fb7-1c7f5feb4051)
 ![image](https://github.com/user-attachments/assets/6032f08a-1186-4cf3-9676-ba88f81b7623)
 
+
+### Trouble Shooting
+1. 조회 시 집계함수 중복 문제 https://velog.io/@boom3652/SQL-Join과-집계-함수-오류
+2. 
