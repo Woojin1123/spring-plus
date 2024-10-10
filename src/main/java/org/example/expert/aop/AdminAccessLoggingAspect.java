@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.example.expert.domain.user.dto.UserDetailsImpl;
+import org.example.expert.domain.common.dto.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -24,9 +24,9 @@ public class AdminAccessLoggingAspect {
     @Before("execution(* org.example.expert.domain.user.controller.UserAdminController.changeUserRole(..))")
     public void logBeforeChangeUserRole(JoinPoint joinPoint) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
 
-        String userId = String.valueOf(userDetails.getId());
+        String userId = String.valueOf(authUser.getId());
         String requestUrl = request.getRequestURI();
         LocalDateTime requestTime = LocalDateTime.now();
 
