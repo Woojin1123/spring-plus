@@ -2,6 +2,7 @@ package org.example.expert.domain.manager.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.expert.domain.common.annotation.ManagerRegistrationLog;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
 import org.example.expert.domain.manager.dto.response.ManagerResponse;
@@ -19,6 +20,7 @@ public class ManagerController {
 
     private final ManagerService managerService;
 
+    @ManagerRegistrationLog
     @PostMapping("/todos/{todoId}/managers")
     public ResponseEntity<ManagerSaveResponse> saveManager(
             @AuthenticationPrincipal AuthUser authUser,

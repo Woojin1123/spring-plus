@@ -6,7 +6,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.log.entity.Log;
 import org.example.expert.domain.log.enums.ExecutionStatus;
 import org.example.expert.domain.log.service.ManagerLogService;
@@ -58,7 +57,7 @@ public class ManagerLoggingAspect {
             managerLogService.saveMangerLog(managerLog);
 
             return result;
-        } catch (InvalidRequestException e) {
+        } catch (Exception e) {
             //실패
             LocalDateTime failedTime = LocalDateTime.now();
             managerLog.setCompletedAt(failedTime);
