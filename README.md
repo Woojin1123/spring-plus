@@ -1,5 +1,16 @@
 # SPRING PLUS
-## 3-12 Aws
+
+#### 프로젝트 소개
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=black"><img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white"><img src="https://img.shields.io/badge/Amazon Ec2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=purple"><img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white"><img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=black"><img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"><img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
+
+
+
+
+AWS의 EC2 RDS를 활용해 Spring Boot 프로젝트를 서버에 올리고 Docker와 GithubAction을 활용해 CI/CD를 구현한 프로젝트
+
+
+
+#### 3-12 Aws 서버 설정
 
 #### EC2
 ![image](https://github.com/user-attachments/assets/17e552ab-c282-4733-998d-f89efcb8b5db)
