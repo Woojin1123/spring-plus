@@ -27,7 +27,7 @@ public class UserAdminService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new InvalidRequestException("User not found")
         );
-        if (!user.getUserRole().equals(UserRole.Authority.ADMIN)) {
+        if (!user.getUserRole().equals(UserRole.ROLE_ADMIN)) {
             throw new InvalidRequestException("User does not have permission");
         }
     }
